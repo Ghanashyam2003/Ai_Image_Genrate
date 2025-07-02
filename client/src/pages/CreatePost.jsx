@@ -1,70 +1,73 @@
-import React , { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { preview } from '../assets'
-import { getRandomPrompt } from '../utils'
-import { FormField,Loader } from '../components'
+import { preview } from '../assets';
+import { getRandomPrompt } from '../utils';
+import { FormField, Loader } from '../components';
 
-function CreatePost = () => {
+const CreatePost = () => {
   const navigate = useNavigate();
-  const [form , setForm ] = useState({
+
+  const [form, setForm] = useState({
     name: '',
     prompt: '',
     photo: '',
-});
-const [generatingImg, setGeneratingImg] = useState(false);
-const [loading , setLoading] = useState(false);
+  });
+  const [generatingImg, setGeneratingImg] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // TODO: add submit logic
+  };
 
-}
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-
-const handleChange = (e) => {
-
-}
-
-const handleSurpriseMe = () => {
-
-  
-}
-
-
+  const handleSurpriseMe = () => {
+    const randomPrompt = getRandomPrompt(form.prompt);
+    setForm({ ...form, prompt: randomPrompt });
+  };
 
   return (
-    <Section className='max-w-7x1 mx-auto px-4 py-16'>
-     <div>
-        <h1 className="font-extrabold text-[#222328] text-[32px]">
-          Create
-        </h1>
+    <section className="max-w-7xl mx-auto px-4 py-16">
+      <div>
+        <h1 className="font-extrabold text-[#222328] text-[32px]">Create</h1>
         <p className="mt-2 text-[#666e75] text-[16px] max-w-[500px]">
-         Create imaginative and visually stunning images through DALL‑E AI and share them with the world.
+          Create imaginative and visually stunning images through DALL‑E AI and
+          share them with the world.
         </p>
       </div>
-      <form className='mt-16 max-w-3xl' onSubmit={handleSubmit}>
-      <div className='flex flex-col gap-5'>
-      <FormField 
-      LabelName= "Your name"
-      type= "text"
-      name= "name"
-      placeholder="Ghanashyam Badgujar"
-      value={form.name}
-      handleChange={handleChange}
-      />
-      <FormField 
-      LabelName= "Prompt"
-      type= "text"
-      name= "propmt"
-      placeholder="A painting of a fox in the style of Starry Night"
-      value={form.prompt}
-      handleChange={handleChange}
-      isSurpriseMe
-      handleSurpriseMe={handleSurpriseMe}
-      />
-      </div>
-      </form>
-    </Section>
-  )
-}
 
-export default CreatePost
+      <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-5">
+          <FormField
+            labelName="Your name"
+            type="text"
+            name="name"
+            placeholder="Ghanashyam Badgujar"
+            value={form.name}
+            handleChange={handleChange}
+          />
+
+          <FormField
+            labelName="Prompt"
+            type="text"
+            name="prompt"                   
+            placeholder="A painting of a fox in the style of Starry Night"
+            value={form.prompt}
+            handleChange={handleChange}
+            isSurpriseMe
+            handleSurpriseMe={handleSurpriseMe}
+          />
+        </div>
+
+        
+        {loading && <Loader />}
+      </form>
+    </section>
+  );
+};
+
+export default CreatePost;
